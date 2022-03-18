@@ -2,44 +2,29 @@ import "./NewsList.scss";
 import NewsItem from "./NewsItem";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-const sampleArticle = {
-  title: "제목",
-  description: "내용",
-  url: "https://google.com",
-  urlToImage: "https://via.placeholder.com/160",
-};
+import usePromise from "../lib/usePromise";
 
 const NewsList = ({ category }) => {
-  const [articles, setArticles] = useState();
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    //async 사용하는 함수 따로 선언
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const query = category === "all" ? "" : `&category=${category}`;
-        const response = await axios.get(
-          `https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=aea770ed6949490493b34741a14f63bb`
-        );
-        setArticles(response.data.articles);
-      } catch (e) {
-        console.log(e);
-      }
-
-      setLoading(false);
-    };
-    fetchData();
+  const [loading, resolved, error] = usePromise(() => {
+    //promiseCreator func
+    const query = category === "all" ? "" : `&category=${category}`;
+    return axios.get(
+      `https://newsapi.org/v2/top-headlines?country=kr${query}&apiKey=aea770ed6949490493b34741a14f63bb`
+    );
+    //return 값이 resolvedValue에 들어간다.
   }, [category]);
 
   if (loading) {
     return <div className="newsListBlock">대기 중...</div>;
   }
-  if (!articles) {
+  if (!resolved) {
     return null;
   }
-
+  if (error) {
+    return <div className="NewsListBlock">에러 발생!</div>;
+  }
+  const articles = resolved.data.articles;
+  //const { articles } = response.data; //비구조화 할당
   return (
     <div className="newsListBlock">
       {articles.map((article) => (
