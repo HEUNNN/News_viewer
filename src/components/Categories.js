@@ -1,5 +1,6 @@
 import "./Categories.scss";
 import styled, { css } from "styled-components";
+import { NavLink } from "react-router-dom";
 const categories = [
   {
     name: "all",
@@ -30,7 +31,7 @@ const categories = [
     test: "기술",
   },
 ];
-const Category = styled.div`
+const Category = styled(NavLink)`
   font-size: 1.125rem;
   font-weight: bold;
   cursor: pointer;
@@ -42,31 +43,27 @@ const Category = styled.div`
   &:hover {
     color: #234e79;
   }
-  ${(props) =>
-    /* 카테고리 선택 시 active 스타일 적용 */
-    props.active &&
-    css`
-      font-weight: 600;
-      border-bottom: 2px solid #22b8cf;
-      color: #22b8cf;
-      &:hover {
-        color: #3bc9db;
-      }
-    `}
-
+  &.active {
+    font-weigth: 600;
+    border-bottom: 2px solid #22b8cf;
+    color: #22b8cf;
+    &:hover {
+      color: #3bc9db;
+    }
+  }
   & + & {
     margin-left: 1rem;
   }
 `;
 
-const Categories = ({ onSelect, category }) => {
+const Categories = () => {
   return (
     <div className="categoriesBlock">
       {categories.map((c) => (
         <Category
           key={c.name}
-          active={c.name === category}
-          onClick={() => onSelect(c.name)}
+          className={({ isActive }) => (isActive ? "active" : undefined)}
+          to={c.name === "all" ? "/" : `/${c.name}`}
         >
           {c.test}
         </Category>
