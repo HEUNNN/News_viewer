@@ -1,0 +1,10 @@
+.categoriesBlock {
+  display: flex;
+  padding: 1rem;
+  width: 768px;
+  margin: 0 auto; /* 중앙 정렬 */
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    overflow-x: auto;
+  }
+}

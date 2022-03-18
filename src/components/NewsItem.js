@@ -1,42 +1,9 @@
-import styled from "styled-components";
-
-const NewsItemBlock = styled.div`
-  display: flex;
-
-  .thumbnail {
-    margin-right: 1rem;
-    img {
-      display: block;
-      width: 160px;
-      height: 100px;
-      object-fit: cover;
-    }
-  }
-
-  .content {
-    h2 {
-      margin: 0;
-      a {
-        color: black;
-      }
-    }
-    p {
-      margin: 0;
-      line-height: 1.5;
-      margin-top: 0.5rem;
-      white-space: normal;
-    }
-  }
-  & + & {
-    margin-top: 3rem;
-  }
-`;
-
+import "./NewsItem.scss";
 const NewsItem = ({ article }) => {
   //각 뉴스 정보를 보여 주는 컴포넌트
   const { title, description, url, urlToImage } = article;
   return (
-    <NewsItemBlock>
+    <div className="newsItemBlock">
       {urlToImage && (
         <div className="thumbnail">
           <a href={url} target="_blank" rel="noopener noreferrer">
@@ -52,7 +19,7 @@ const NewsItem = ({ article }) => {
           <p>{description}</p>
         </h2>
       </div>
-    </NewsItemBlock>
+    </div>
   );
 };
 export default NewsItem;
