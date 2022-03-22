@@ -62,7 +62,7 @@ const Categories = () => {
       {categories.map((c) => (
         <Category
           key={c.name}
-          className={({ isActive }) => (isActive ? "active" : undefined)}
+          className={({ isActive }) => (isActive ? undefined : "active")}
           to={c.name === "all" ? "/" : `/${c.name}`}
         >
           {c.test}
